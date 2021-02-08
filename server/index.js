@@ -2,7 +2,7 @@ const express = require("express")
 const cors = require("cors")
 const helmet = require("helmet")
 const videoRouter = require("./router/videoRouter/videoRouter.js")
-
+const attemptsRouter = require("./router/attempts/attemptsRouter")
 //==========Server Init ==========//
 const server = express();
 const PORT = process.env.PORT || 5555;
@@ -12,7 +12,8 @@ server.listen(PORT, () => {
 })
 //=========Server Middleware and config=====//
 server.use(cors(),helmet(),express.json())
-server.use("/video",videoRouter)
+server.use("/api/v1/video",videoRouter)
+server.use("/api/v1/attempts",attemptsRouter)
 // server.use("/user",userRouter)
 // server.use("/auth",authRouter)
 //===========Server UP endpoint========================//
