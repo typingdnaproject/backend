@@ -1,7 +1,5 @@
 // Update with your config settings.
 require('dotenv').config();
-var pg = require('pg');
-pg.defaults.ssl = true;
 module.exports = {
 
   development: {
@@ -22,7 +20,7 @@ module.exports = {
   },
 
   production: {
-    client: 'postgres',
+    client: 'pg',
     connection: process.env.DATABASE_URL,
     migrations: {
       directory: __dirname + '/db/migrations'
