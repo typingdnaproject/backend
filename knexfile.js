@@ -1,5 +1,9 @@
 // Update with your config settings.
 require('dotenv').config();
+pg.defaults.ssl = {
+  rejectUnauthorized: false,
+}
+
 module.exports = {
 
   development: {
@@ -22,12 +26,11 @@ module.exports = {
   production: {
     client: 'pg',
     connection: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false
+    },
     migrations: {
       directory: __dirname + '/db/migrations'
     },
-    ssl: {
-      rejectUnauthorized: false
-    }
-  }
 
 };
