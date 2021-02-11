@@ -1,6 +1,10 @@
 const router = require('express').Router();
 const database = require("../../config/knex-config");
 const axios = require('axios').default;
+var FormData = require('form-data');
+var https = require('https');
+var querystring = require('querystring');
+
 require('dotenv').config();
 
 
@@ -22,21 +26,24 @@ res.status(201).json({responseMessage:responseData})
 })
 
 router.put("/",(req,res) => {
-const config ={
-    headers:{
-        "Authorization": `${process.env.typingDnaApiKey}${process.env.typingDnaSecret}`,
-        "Content-type": "application/json; charset=UTF-8",
+    var apiKey = `${process.env.typingDnaApiKey}`
+    var apiSecret = `${process.env.typingDnaSecret}`;
+    var options = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic ' + new Buffer.from(apiKey + ':' + apiSecret).toString('base64'),
+        },
+    };
+    var data = {
+        tp : `${req.body.tp}`,
+        quality : "2",
     }
-}
-const postBody = {
-    "id":process.env.typingdnaId,
-    "tp":req.body.tp
-}
 
-axios.post(`https://api.typingdna.com/auto/${process.env.typingdnaSecret}`,
-postBody,
-config
-).then(results => {
+var formData = new FormData();
+formData.append("tp",req.body.tp)
+axios.post(`https://api.typingdna.com/auto/bryceAndJamie`,
+data,options).then(results => {
     if(results.enrollment === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
