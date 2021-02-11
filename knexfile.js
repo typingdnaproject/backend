@@ -24,23 +24,11 @@ module.exports = {
     connection: process.env.DATABASE_URL,
     migrations: {
       directory: __dirname + '/db/migrations'
+    },
+    ssl: {
+      rejectUnauthorized: false
     }
    
-  },
-  testing: {
-    client: 'pg',
-    useNullAsDefault: true,
-    
-    connection: {
-      host: '127.0.0.1',
-      port: '5432',
-      user: 'postgres',
-      password:process.env.PASS,
-      database: 'database_name'
-    },
-    migrations: {
-      directory: './db/migrations'
-    }
   }
 
 };

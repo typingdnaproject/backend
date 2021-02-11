@@ -16,6 +16,7 @@ database.insert({...req.body})
 .then(responseData => {
 res.status(201).json({responseMessage:responseData})
 }).catch(err =>{
+    console.log(err)
     res.status(500).json({errorMessage:err,errText:"Sorry for some reason your post did not work"})
 })
 })
