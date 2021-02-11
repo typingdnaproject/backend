@@ -26,9 +26,7 @@ module.exports = {
       directory: __dirname + '/db/migrations'
     },
     dialectOptions: {
-      ssl: {
-          rejectUnauthorized: false
-      }
+      ssl: true
   }
    
   }
