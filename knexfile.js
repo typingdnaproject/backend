@@ -27,6 +27,9 @@ module.exports = {
     migrations: {
       directory: __dirname + '/db/migrations'
     },
+    ssl: {
+      rejectUnauthorized: false
+    }
   }
 
 };
