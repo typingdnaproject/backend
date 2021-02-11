@@ -25,10 +25,11 @@ module.exports = {
     migrations: {
       directory: __dirname + '/db/migrations'
     },
-    dialect: 'postgres',
     dialectOptions: {
-      ssl: true
-    }
+      ssl: {
+          rejectUnauthorized: false
+      }
+  }
    
   }
 
