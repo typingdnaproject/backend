@@ -21,11 +21,26 @@ res.status(201).json({responseMessage:responseData})
 })
 
 router.put("/",(req,res) => {
-//We need to fetch 
-    if(req.body.isSuccessful === true){
+const config ={
+    headers:{
+        "Authorization": `${process.env.typingDnaApiKey}${process.env.typingDnaSecret}`,
+        "Content-type": "application/json; charset=UTF-8",
+    }
+}
+const postBody = {
+    "id":process.env.typingdnaId,
+    "tp":req.body.tp
+}
+
+axios.post(`https://api.typingdna.com/auto/${process.env.typingdnaSecret}`,
+postBody,
+config
+).then(results => {
+    if(results.enrollment === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
         //First we want to fetch our current data
+        
         axios.get(`${process.env.requiredUrl}`)
         .then(data => {
         let requestBody = {
@@ -48,7 +63,7 @@ router.put("/",(req,res) => {
         })
     }else{
         //We want to update numOfAttempts to add one value to the column
-        axios.get(`http://localhost:5555/api/v1/attempts/`)
+        axios.get(`${process.env.requiredUrl}`)
         .then(data => {
         let requestBody = {
             "numOfSuccessfulAttempts":data.data.responseMessage[0].numOfSuccessfulAttempts,
@@ -69,6 +84,9 @@ router.put("/",(req,res) => {
             res.status(500).json({errorMessage:err,errText:"Failed to retrieve data from the table"})
         })
     }
+}).catch(err =>{
+res.status(500).json({errorMessage:`Failed to make a request to the typingdna api`,err:err})
+})
 })
 
 /**
