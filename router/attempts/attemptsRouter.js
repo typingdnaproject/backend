@@ -23,7 +23,7 @@ res.status(201).json({responseMessage:responseData})
 router.put("/",(req,res) => {
 const config ={
     headers:{
-        "Authorization": `${typingDnaApiKey}${typingDnaSecret}`,
+        "Authorization": `${process.env.typingDnaApiKey}${process.env.typingDnaSecret}`,
         "Content-type": "application/json; charset=UTF-8",
     }
 }
