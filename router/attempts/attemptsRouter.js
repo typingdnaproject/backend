@@ -2,8 +2,7 @@ const router = require('express').Router();
 const database = require("../../config/knex-config");
 const axios = require('axios').default;
 var FormData = require('form-data');
-var https = require('https');
-var querystring = require('querystring');
+
 
 require('dotenv').config();
 
@@ -20,7 +19,6 @@ database.insert({...req.body})
 .then(responseData => {
 res.status(201).json({responseMessage:responseData})
 }).catch(err =>{
-    console.log(err)
     res.status(500).json({errorMessage:err,errText:"Sorry for some reason your post did not work"})
 })
 })
@@ -35,16 +33,23 @@ router.put("/",(req,res) => {
             'Authorization': 'Basic ' + new Buffer.from(apiKey + ':' + apiSecret).toString('base64'),
         },
     };
-    var data = {
-        tp : `${req.body.tp}`,
-        quality : "2",
-    }
+let data = {tp :req.body.tp}
+let formBody = [];
+for(let prop in data){
+    const encodedKey = encodeURIComponent(prop);
+    const encodedValue = encodeURIComponent(data[prop])
+    formBody.push(encodedKey + "=" + encodedValue);
+}
+formBody = formBody.join("&");
 
-var formData = new FormData();
-formData.append("tp",req.body.tp)
 axios.post(`https://api.typingdna.com/auto/bryceAndJamie`,
-data,options).then(results => {
-    if(results.enrollment === 1){
+formBody,options).then(results => {
+
+
+
+
+
+    if(results.data.enrollment === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
         //First we want to fetch our current data
