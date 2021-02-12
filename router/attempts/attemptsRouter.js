@@ -1,6 +1,9 @@
 const router = require('express').Router();
 const database = require("../../config/knex-config");
 const axios = require('axios').default;
+var FormData = require('form-data');
+
+
 require('dotenv').config();
 
 
@@ -16,28 +19,37 @@ database.insert({...req.body})
 .then(responseData => {
 res.status(201).json({responseMessage:responseData})
 }).catch(err =>{
-    console.log(err)
     res.status(500).json({errorMessage:err,errText:"Sorry for some reason your post did not work"})
 })
 })
 
 router.put("/",(req,res) => {
-const config ={
-    headers:{
-        "Authorization": `${process.env.typingDnaApiKey}${process.env.typingDnaSecret}`,
-        "Content-type": "application/json; charset=UTF-8",
-    }
+    var apiKey = `${process.env.typingDnaApiKey}`
+    var apiSecret = `${process.env.typingDnaSecret}`;
+    var options = {
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'Cache-Control': 'no-cache',
+            'Authorization': 'Basic ' + new Buffer.from(apiKey + ':' + apiSecret).toString('base64'),
+        },
+    };
+let data = {tp :req.body.tp}
+let formBody = [];
+for(let prop in data){
+    const encodedKey = encodeURIComponent(prop);
+    const encodedValue = encodeURIComponent(data[prop])
+    formBody.push(encodedKey + "=" + encodedValue);
 }
-const postBody = {
-    "id":process.env.typingdnaId,
-    "tp":req.body.tp
-}
+formBody = formBody.join("&");
 
-axios.post(`https://api.typingdna.com/auto/${process.env.typingdnaSecret}`,
-postBody,
-config
-).then(results => {
-    if(results.enrollment === 1){
+axios.post(`https://api.typingdna.com/auto/bryceAndJamie`,
+formBody,options).then(results => {
+
+
+
+
+
+    if(results.data.enrollment === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
         //First we want to fetch our current data
