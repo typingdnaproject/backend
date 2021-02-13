@@ -42,14 +42,13 @@ for(let prop in data){
 }
 formBody = formBody.join("&");
 
-axios.post(`https://api.typingdna.com/auto/bryceAndJamie`,
+axios.post(`https://api.typingdna.com/auto/JamiesTestUser`,
 formBody,options).then(results => {
 
 
-
-
-
     if(results.data.result === 1){
+
+
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
         //First we want to fetch our current data
