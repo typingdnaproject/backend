@@ -49,7 +49,7 @@ formBody,options).then(results => {
 
 
 
-    if(results.data.enrollment === 1){
+    if(results.data.result === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
         //First we want to fetch our current data
