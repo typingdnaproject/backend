@@ -42,7 +42,7 @@ for(let prop in data){
 }
 formBody = formBody.join("&");
 
-axios.post(`https://api.typingdna.com/auto/JamiesTestUser`,
+axios.post(`https://api.typingdna.com/auto/UserVincentB`,
 formBody,options).then(results => {
 
 
