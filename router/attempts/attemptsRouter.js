@@ -23,7 +23,7 @@ res.status(201).json({responseMessage:responseData})
 })
 })
 
-router.put("/",(req,res) => {
+router.put("/:id",(req,res) => {
     var apiKey = `${process.env.typingDnaApiKey}`
     var apiSecret = `${process.env.typingDnaSecret}`;
     var options = {
@@ -42,13 +42,8 @@ for(let prop in data){
 }
 formBody = formBody.join("&");
 
-axios.post(`https://api.typingdna.com/auto/bryceAndJamie`,
+axios.post(`https://api.typingdna.com/auto/${req.params.id}`,
 formBody,options).then(results => {
-
-
-
-
-
     if(results.data.result === 1){
         //We want to post a successful login attempt
         //So we update numOfSuccessfulAttempts and numOfAttempts
