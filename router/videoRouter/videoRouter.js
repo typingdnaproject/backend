@@ -3,7 +3,7 @@ const router = require('express').Router();
 router.get("/byname/:name",(req,res) => {
     console.log(`Querying resource: ${name}`)
   const {name} = req.params
-  const path = `assets/${name}.mp4`
+  const path = `/${name}.mp4`
   const stat = fs.statSync(path);
   const fileSize = stat.size;
   const range = req.headers.range;
